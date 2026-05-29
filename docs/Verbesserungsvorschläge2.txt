@@ -1,0 +1,558 @@
+Verbesserungsvorschläge
+Feedback aller Durchläufe wird zusammengefasst → konkreter Änderungsvorschlag pro Feld
+
+Neu generieren
+Titel (cclom:title)
+Prompt übernehmen
+## Schwachstellen
+- **Formatkonformität** (manche Modelle erreichen 5–7/10):  
+  - Titel überschreiten häufig die Zeichenbegrenzung oder enthalten Artikel, Bindestriche, Klammern oder andere Sonderzeichen.  
+  - Teilweise wird der Materialtyp (z. B. *Arbeitsblatt*, *Video*) oder didaktische Hinweise (z. B. *Experimentelle Erarbeitung*) mit ausgegeben.  
+
+- **Bildungseignung** (häufig 5–9/10):  
+  - Reine Stichwort‑Ketten (z. B. *Reibungskräfte Reifen Bremsen*) sind für Lehrkräfte schwer lesbar und vermitteln wenig didaktischen Kontext.  
+  - Fehlende Angabe von Zielgruppe, Fach oder Lernstufe, wenn diese im Ausgangstext vorkommen, reduziert die pädagogische Nutzbarkeit.  
+
+- **Sprachqualität** (teilweise 4–9/10):  
+  - Durch die ausschließliche Nominalisierung entstehen ungrammatische, „holprige“ Titel, die im menschlichen Gebrauch ungewohnt wirken.  
+  - Fehlende Bindewörter oder falsche Wortreihenfolge führen zu schwer verständlichen Titeln.  
+
+- **Inhaltliche Korrektheit / Halluzinationen** (einzelne Fälle 1–9/10):  
+  - Modelle fügen Begriffe ein, die im Ausgangstext nicht vorkommen (z. B. *Aquaplaning*, *Investiturstreit*).  
+  - Das führt zu falschen Metadaten und mindert die Vertrauenswürdigkeit.  
+
+- **Suchoptimierung** (oft 9–10/10 bei reinen Stichwortlisten, aber ≤ 7/10 bei lesbaren Titeln):  
+  - Der aktuelle Prompt begünstigt reine Keyword‑Aufzählungen, wodurch die Lesbarkeit und Bildungseignung leiden.  
+
+## Konkrete Änderungen
+1. **Klare Priorisierung von Lesbarkeit & SEO**  
+   - Formuliere den Prompt so, dass ein *lesbarer, substantivischer Titel* gefordert wird, der **mindestens ein verbindendes Bindewort (z. B. „–“, „/“ oder ein zusammengesetztes Substantiv)** enthält, um die reine Stichwortkette zu vermeiden.  
+
+2. **Einschränkung auf im Text vorkommende Begriffe**  
+   - Ergänze die Anweisung: *„Verwende ausschließlich Begriffe, die im Ausgangstext vorkommen. Halluziniere keine Fachbegriffe.“*  
+
+3. **Optionaler Hinweis auf Zielgruppe/Fach, wenn im Text genannt**  
+   - Erlaube die Aufnahme von **Fach, Schulstufe oder Zielgruppe**, jedoch **nur, wenn diese explizit im Ausgangstext genannt werden**.  
+
+4. **Striktere Zeichen‑ und Längenregeln**  
+   - Formuliere: *„Titel = 40‑70 Zeichen, keine Artikel, keine Klammern, kein Doppelpunkt, kein Bindestrich außerhalb von zusammengesetzten Substantiven.“*  
+
+5. **Beispiel‑Erweiterung**  
+   - Ergänze ein Beispiel, das sowohl lesbar als auch suchoptimiert ist, z. B.  
+     *„Reibungskräfte – Haft‑, Gleit‑ und Rollreibung im Kraftfahrzeug“*  
+
+6. **Bewertungshinweis für das Modell**  
+   - Fordere das Modell auf, **nach der Generierung** zu prüfen, ob alle Vorgaben erfüllt sind, und im Zweifel nachzubessern.
+Vorgeschlagener Prompt
+Kopieren
+```
+Formuliere einen suchoptimierten, **lesbaren** Titel, der ausschließlich den INHALT des Materials benennt – nicht die Form.
+
+- Länge: **40 – 70 Zeichen** (inkl. Leerzeichen).  
+- Stil: **substantivisch** (Nominalphrase). Verwende **keine Artikel** („der“, „die“, „das“) und **keine Klammern, Doppelpunkte oder Sonderzeichen**.  
+- Erlaube **Bindestriche nur innerhalb von zusammengesetzten Substantiven** (z. B. „Haft‑reibung“).  
+- **Materialtyp** (Arbeitsblatt, Video, Quiz …) darf **nicht** im Titel erscheinen.  
+- **Fach, Schulstufe oder Zielgruppe** dürfen nur dann genannt werden, wenn sie **explizit im Ausgangstext vorkommen**.  
+- Nutze **nur Begriffe, die im Ausgangstext vorkommen** – halluziniere keine Fachbegriffe.  
+- Ordne die wichtigsten Schlüsselbegriffe **zuerst** an, danach ggf. ein verbindendes Bindewort oder ein zusammengesetztes Substantiv, um die Lesbarkeit zu erhöhen.  
+- Beispiel:  
+  *„Reibungskräfte – Haft‑, Gleit‑ und Rollreibung im Kraftfahrzeug“*  
+
+**Ausgabe:** nur der fertige Titel, ohne weitere Erklärungen oder Formatierungen.
+```
+Beschreibung (cclom:general_description)
+Prompt übernehmen
+## Schwachstellen
+- **Inhaltliche Korrektheit**: Einige Modelle fügen nicht belegte Details (z. B. zusätzliche Fachbegriffe, Methoden oder Zahlen) ein.  
+- **Formatkonformität**: Trotz Angabe „max. 20 Wörter pro Satz“ überschreiten manche Modelle die Wort‑ bzw. Zeichengrenze oder geben gar keinen Text aus.  
+- **Suchoptimierung vs. Halluzination**: Die Anforderung, Fach‑ und Suchbegriffe einzubauen, führt bei manchen Modellen zu erfundenen Begriffen, weil nicht klar ist, welche Begriffe aus dem Quelltext stammen dürfen.  
+- **Ausgabe‑Sicherheit**: Einige Durchläufe liefern leere Antworten (Prompt wird nicht zwingend zu einer Ausgabe geführt).  
+
+## Konkrete Änderungen
+1. **Klarere Verbot‑Formulierung**  
+   - „Nur Informationen verwenden, die im Ausgangstext ausdrücklich genannt werden. Keine zusätzlichen Fakten, Beispiele oder Methoden erfinden.“  
+2. **Striktere Längen‑ und Satz‑Kontrolle**  
+   - „Gesamtlänge = 400 – 800 Zeichen (inkl. Leerzeichen).  
+   - „Jeder Satz darf **höchstens 20 Wörter** enthalten. Wenn ein Satz länger wird, kürze ihn sofort.“  
+3. **Keyword‑Regel präzisieren**  
+   - „Fachbegriffe dürfen nur dann eingefügt werden, wenn sie im Quelltext vorkommen.  
+   - „Allgemeine Suchbegriffe (z. B. „Physik“, „Sekundarstufe I“, „Lehrkraft“) dürfen zusätzlich verwendet werden.“  
+4. **Ausgabe‑Garantie**  
+   - „Gib **immer** einen Text aus. Falls die Quelle zu kurz ist, wiederhole die Kernaussagen in anderer Form, ohne neue Fakten hinzuzufügen.“  
+5. **Aktive Sprache erzwingen**  
+   - „Verwende ausschließlich aktive Verben, vermeide Passivkonstruktionen und Floskeln („Dieses Material …“, „Hier finden Sie …“).“  
+6. **Struktur‑Check**  
+   - „Baue den Text exakt in der Reihenfolge : Kernthema → zentrale Inhalte/Konzepte → didaktische Form → Zielgruppe/Einsatz → Mehrwert.“
+Vorgeschlagener Prompt
+Kopieren
+```
+Schreibe eine **motivierende** Beschreibung des Inhalts eines Bildungs‑Materials.
+
+**Vorgaben**
+1. **Länge**: 400 – 800 Zeichen (inkl. Leerzeichen).  
+2. **Satzlänge**: Jeder Satz darf **maximal 20 Wörter** enthalten. Kürze sofort, wenn die Grenze überschritten wird.  
+3. **Struktur (in dieser Reihenfolge)**  
+   - Kernthema  
+   - Zentrale Inhalte / Konzepte  
+   - Didaktische Form (z. B. interaktive Übung, Erklärvideo)  
+   - Zielgruppe / möglicher Einsatz im Unterricht  
+   - Mehrwert für Lernende und Lehrkräfte  
+4. **Sprache**: Aktive Formulierungen, keine Passivkonstruktionen, keine Floskeln („Dieses Material …“, „Hier finden Sie …“).  
+5. **Inhaltliche Korrektheit**: Verwende **nur** Informationen, die im bereitgestellten Quelltext ausdrücklich genannt werden. Erfinde keine zusätzlichen Fakten, Beispiele, Methoden oder Zahlen.  
+6. **Suchoptimierung**  
+   - Fachbegriffe dürfen **nur** dann eingebaut werden, wenn sie im Quelltext vorkommen.  
+   - Ergänze darüber hinaus gängige, themenbezogene Suchbegriffe (z. B. „Physik“, „Sekundarstufe I“, „Lehrkraft“, „Klassenzimmer“), die nicht erfunden sind.  
+7. **Ausgabe‑Garantie**: Gib immer einen Text aus. Ist der Quelltext zu kurz, wiederhole die Kernaussagen in anderer Form, ohne neue Fakten hinzuzufügen.  
+
+**Ausgabe**: Nur den fertigen Beschreibungstext, ohne Überschriften, Markup oder zusätzliche Erklärungen.
+```
+Schlagworte (cclom:general_keyword)
+Prompt übernehmen
+## Schwachstellen
+- **Inhaltliche Korrektheit**: In mehreren Durchläufen (z. B. 1, 3, 13, 23, 33) wurden Scores < 10 vergeben, weil das Modell Begriffe erzeugte, die nicht im Ausgangstext vorkamen oder nur spekulativ waren.  
+- **Bildungseignung**: Oft unter 10 (z. B. 2, 5, 21, 31), weil Metadaten wie Bildungsstufen, Materialtypen oder Marken‑/Personennamen auftauchten, die für die reine Schlagwort‑Erfassung nicht zulässig sind.  
+- **Formatkonformität**: In vielen Fällen (z. B. 4, 9, 14, 24, 34) überschritt die Ausgabe die geforderte Anzahl von 5‑8 Begriffen, enthielt nicht‑kommagetrennte Listen oder enthielt Ober‑/Unterbegriffe gleichzeitig.  
+- **Suchoptimierung**: Scores < 10 (z. B. 1, 3, 8, 15, 28) resultierten aus Synonym‑Dopplungen, zu generischen Oberbegriffen („Mathematik“, „Physik“) oder aus der Mischung von Ober‑ und Unterbegriffen, was das Rauschen erhöht.  
+- **Sprachqualität**: Selten, aber vorkommend (z. B. 13, 23, 33), weil teilweise Verben, Pluralformen, Bindestriche oder abgekürzte Fachbegriffe verwendet wurden.
+
+## Konkrete Änderungen
+- **Klarere Quellenbindung**: „Nur Begriffe verwenden, die exakt im Text vorkommen oder eindeutig daraus ableitbar sind.“  
+- **Verbot von Halluzinationen**: „Keine spekulativen oder impliziten Begriffe, die nicht ausdrücklich genannt werden.“  
+- **Ausschluss von Meta‑Informationen**: „Keine Bildungsstufen, Material‑/Methodentypen, Marken‑ oder Personennamen, Abkürzungen, Pluralformen oder Bindestrich‑Konstruktionen.“  
+- **Striktere Formatvorgaben**: „Genau 5‑8 Begriffe, kommagetrennt, keine Leerzeichen vor/nach dem Komma, Nominativ Singular, keine Dopplungen, keine Ober‑/Unterbegriffe gleichzeitig.“  
+- **Synonym‑ und Hierarchie‑Kontrolle**: „Prüfe, dass kein Begriff ein Ober‑ oder Unterbegriff eines bereits genannten Begriffs ist (z. B. nicht sowohl ‚Reibung‘ als auch ‚Reibungskraft‘).“  
+- **Beispiel‑Einbindung**: Ein kurzes Negativ‑Beispiel, um das Verbot von unerlaubten Kategorien zu verdeutlichen.  
+- **Optionaler Kontroll‑Hinweis**: „Falls weniger als 5 Begriffe aus dem Text extrahierbar sind, gib nur die vorhandenen Begriffe aus.“
+Vorgeschlagener Prompt
+Kopieren
+```
+Erstelle 5–8 inhaltliche Schlagworte für das gegebene Lernmaterial.
+
+Regeln:
+1. Nur Begriffe, die exakt im Text vorkommen oder eindeutig daraus ableitbar sind. Keine spekulativen oder impliziten Begriffe.
+2. Verwende ausschließlich Substantive im Nominativ Singular. Keine Pluralformen, Verben, Bindestrich‑Konstruktionen oder Abkürzungen.
+3. Keine Bildungsstufen, Material‑/Methodentypen, Marken‑ oder Personennamen, keine Angaben zu Format, Zielgruppe oder Plattform.
+4. Keine Synonym‑Dopplungen und keine Ober‑/Unterbegriffe gleichzeitig (z. B. nicht sowohl „Reibung“ als auch „Reibungskraft“).
+5. Begriffe müssen fachlich präzise und spezifisch sein (z. B. „Bruchrechnung“ statt „Mathematik“).
+6. Reihenfolge: absteigend nach Relevanz – das Kernthema zuerst.
+7. Ausgabe exakt als kommagetrennte Liste, z. B.: 
+   Bruchrechnung, Zähler, Nenner, Kürzen, Gleichwertigkeit
+   (keine zusätzlichen Leerzeichen, keine Zeilenumbrüche, keine Aufzählungszeichen).
+
+Falls aus dem Text weniger als 5 geeignete Begriffe extrahierbar sind, gib nur die vorhandenen Begriffe aus (maximal 5‑8). 
+```
+Materialart (ccm:educationallearningresourcetype)
+Prompt übernehmen
+## Schwachstellen
+- **Formatkonformität**: In vielen Durchläufen geben Modelle den Kategorienamen oder zusätzliche Texte aus (z. B. „worksheet“, „video“, Erklärungen). Das führt zu einer Punktzahl < 10, weil das geforderte reine **ID‑Only**‑Format nicht eingehalten wird.  
+- **Verwendung des Widget‑Platzhalters**: Einige Modelle können die Syntax `{{widget("ccm:educationallearningresourcetype".values[*].{id:id, name:caption})}}` nicht interpretieren und geben Fehlermeldungen oder leere Antworten.  
+- **Mehrdeutige Priorisierung**: Die Anweisung *„bei Mischformen die dominante Funktion“* ist nicht konkret genug, sodass unterschiedliche Modelle unterschiedliche Prioritäten setzen.  
+- **Fehlende Fehlertoleranz**: Wenn keine passende Kategorie gefunden wird, geben Modelle unklare Meldungen („keine Zuordnung“, URL etc.) aus, anstatt ein definiertes „keine passende ID“ zurückzugeben.  
+
+## Konkrete Änderungen
+1. **Klare Ausgabe‑Vorgabe**  
+   - Formuliere die Anweisung so, dass **nur die reine ID** (numerisch oder alphanumerisch, exakt wie in der Liste) zurückgegeben wird – keine Leerzeichen, kein Zeilenumbruch, kein Text.  
+   - Ergänze ein Beispiel, das die korrekte Form zeigt.
+
+2. **Explizite Nutzung der Kategorienliste**  
+   - Ersetze den Widget‑Platzhalter durch einen **direkt im Prompt eingebetteten, leicht lesbaren Tabellen‑Block** (ID | Name).  
+   - Hinweis, dass das Modell ausschließlich aus dieser Tabelle wählen muss.
+
+3. **Eindeutige Prioritätsreihenfolge**  
+   - Definiere eine feste Reihenfolge für die didaktischen Funktionen (z. B. 1 = lesen/ansehen, 2 = bearbeiten/lösen, 3 = nachschlagen, 4 = ausprobieren, 5 = Unterricht planen).  
+   - Formuliere: *„Falls mehrere Funktionen zutreffen, wähle die mit der niedrigsten Nummer.“*
+
+4. **Fehlertoleranz**  
+   - Lege fest, dass das Modell bei Nicht‑Fund **„none“** (oder eine definierte ID = 0) zurückgibt, um das Format immer zu wahren.
+
+5. **Verbot von Zusatzinformationen**  
+   - Verbanne ausdrücklich Wörter wie „Die passende ID ist …“, „Hier die ID:“ etc. und weise darauf hin, dass jede andere Ausgabe als Fehler gewertet wird.
+Vorgeschlagener Prompt
+Kopieren
+```
+Du bist ein Klassifizierer für das Feld **ccm:educationallearningresourcetype** (Materialart).  
+Bestimme die Materialart ausschließlich nach ihrer **didaktischen Funktion** (nicht nach Dateiformat).  
+Leitfragen – welche Hauptaktivität wird mit dem Material ausgeführt?
+
+1. lesen/ansehen  
+2. bearbeiten/lösen  
+3. nachschlagen  
+4. ausprobieren  
+5. Unterricht planen  
+
+**Vorgehen**
+- Sieh dir die untenstehende Tabelle an. Jede Zeile enthält die **ID** und den zugehörigen **Kategorienamen**.
+- Ordne das gegebene Lernmaterial **einer einzigen** Kategorie zu.  
+- Trifft das Material auf mehrere Funktionen zu, wähle die mit der **niedrigsten Nummer** aus der obigen Liste (höchste Priorität).  
+- Gib **nur die ID** zurück – **keine Leerzeichen, Zeilenumbrüche, Erklärungen oder sonstiger Text**.  
+- Wenn keine der Kategorien passt, gib die ID **0** zurück.
+
+**Kategorien (ID | Name)**
+{{widget("ccm:educationallearningresourcetype".values[*].{id:id, name:caption})}}
+
+**Beispiel**  
+Material: ein Arbeitsblatt, das Schüler*innen zum Lösen von Aufgaben auffordert.  
+Ausgabe: `510`   (nur die Zahl, exakt so)
+
+**Jetzt** bestimme die passende ID für das folgende Lernmaterial:
+[Hier den zu klassifizierenden Text/Link einfügen]
+
+```
+
+*Hinweis*: Ersetze den Platzhalter `[Hier den zu klassifizierenden Text/Link einfügen]` durch die konkrete Materialbeschreibung, bevor du den Prompt an das Modell sendest. Der Prompt garantiert, dass das Modell ausschließlich aus der bereitgestellten Tabelle wählt und die Ausgabe exakt dem geforderten Format entspricht.
+Inhaltstyp (ccm:oeh_lrt)
+Prompt übernehmen
+## Schwachstellen  
+- **Inhaltliche Korrektheit**: Viele Modelle geben Fach‑ oder Formatbezeichnungen statt des geforderten Inhaltstyps zurück oder liefern völlig falsche IDs (Platzhalter, Hochschul‑Fächer‑Codes).  
+- **Formatkonformität**: In fast allen Durchläufen wird das geforderte *kommagetrennte ID‑Format* nicht eingehalten – Modelle schreiben Namen, Beschreibungen oder geben gar nichts aus.  
+- **Variablen‑Auflösung**: Der Platzhalter `{{WIDGET_LRT}}` wird von den Modellen nicht ersetzt, sodass sie entweder „WIDGET_LRT“ oder leere Antworten produzieren.  
+- **Mehrfachzuordnung vs. Ober‑/Unterkategorie**: Die Anweisung *„Ober‑ und Unterkategorie NICHT gleichzeitig“* wird häufig missverstanden; Modelle kombinieren beide Ebenen oder geben nur eine generische Oberkategorie.  
+- **Suchoptimierung**: Durch falsche oder fehlende IDs wird die spätere Indexierung und Filterung stark beeinträchtigt.  
+
+## Konkrete Änderungen  
+1. **Klare Vorgabe zur Variablen‑Ersetzung**  
+   - Erkläre, dass `{{WIDGET_LRT}}` durch die tatsächliche Liste von `Name → id`‑Paaren ersetzt werden muss (z. B. in einer Code‑Block‑Notation).  
+2. **Strikte Ausgabe‑Regel**  
+   - Formuliere die Anweisung, **nur** die IDs (keine Namen, keine Erklärungen, kein Leer‑/Zeilenumbruch) zurückzugeben.  
+   - Ergänze ein Beispiel, das exakt das gewünschte Format zeigt.  
+3. **Validierungshinweis**  
+   - Bitte das Modell, die Ausgabe zu prüfen: *„Wenn du dir nicht sicher bist, gib keine Ausgabe zurück.“* – verhindert leere oder falsche Ergebnisse.  
+4. **Mehrfachzuordnung eindeutig definieren**  
+   - Formuliere: *„Mehrere IDs dürfen nur dann kombiniert werden, wenn sie unterschiedliche *Didaktik‑Funktionen* (z. B. Lernmaterial + Übungs‑Material) beschreiben. Ober‑ und Unterkategorie dürfen nicht gleichzeitig vorkommen.“*  
+5. **Begrenzung auf bekannte IDs**  
+   - Füge die vollständige Mapping‑Tabelle als Inline‑Liste ein, damit das Modell die IDs auswählen kann, anstatt zu raten.  
+6. **Fehlertoleranz**  
+   - Gebe an, dass bei Unsicherheit *„keine Ausgabe“* besser ist als eine falsche ID.
+Vorgeschlagener Prompt
+Kopieren
+```
+Du bist ein Experte für Bildungsmetadaten.  
+Deine Aufgabe: Ordne das gegebene Lernmaterial **nach didaktischer Funktion und Nutzungsweise** dem passenden Inhaltstyp‑Katalog (LRT) zu.  
+
+WICHTIG:  
+- Gib **nur** die ID(s) zurück – **keine Namen, keine Erklärungen, kein zusätzlicher Text**.  
+- Die IDs müssen **kommagetrennt** sein, z. B. `lrt_002,lrt_004`.  
+- Mehrfachzuordnung ist erlaubt, **nur wenn die IDs unterschiedliche didaktische Funktionen beschreiben** (z. B. Lernmaterial + Übungs‑Material).  
+- **Ober‑ und Unterkategorie dürfen niemals gleichzeitig vorkommen.**  
+- Wenn du dir nicht sicher bist, gib **keine Ausgabe** zurück.  
+
+Hier ist die aktuelle Mapping‑Tabelle (Name → id). Verwende ausschließlich die angegebenen IDs:
+
+```
+{{WIDGET_LRT}}
+```
+
+Beispiel (nur zur Veranschaulichung, nicht ausgeben):  
+Eingabe: „Ein Erklärvideo zum Thema Photosynthese.“ → Ausgabe: `lrt_002`  
+
+**Jetzt** bestimme für das folgende Lernmaterial die passende(n) ID(s) und gib sie exakt im geforderten Format aus:
+
+[Hier den zu klassifizierenden Text/Link/Beschreibung einfügen]
+```
+Bildungsstufe (ccm:educationalcontext)
+Prompt übernehmen
+## Schwachstellen
+- **Inhaltliche Korrektheit** (unter 10): In vielen Durchläufen wurden falsche oder zu breite Stufen gewählt (z. B. Grundschule für Prozentrechnung, zu hohe Klassenstufen für einfache Physik). Der Prompt lässt zu viel Interpretationsspielraum bei der Zuordnung von Sprachniveau, Vorwissen und Lehrplanzuordnung.
+- **Formatkonformität** (unter 10): Modelle geben häufig Namen statt IDs, fügen erklärenden Text ein oder nutzen ein falsches Trennzeichen (z. B. „;“). Der Prompt definiert nicht eindeutig, dass **nur** kommagetrennte IDs ohne Leer‑ oder Zeilenumbrüche zurückzugeben sind.
+- **Suchoptimierung** (unter 10): Durch die Ausgabe von Namen oder gemischten Formaten (JSON + IDs) wird die maschinelle Indexierung erschwert. Es fehlt ein Hinweis, dass IDs eindeutig und aus der bereitgestellten Widget‑Liste stammen müssen.
+- **Didaktische Präzision** (unter 10): Der Prompt fordert „maximal 3 Stufen, möglichst aufeinanderfolgend“, aber gibt keine klare Regel, wie bei Mehrdeutigkeiten (z. B. Grund‑ / Sekundarstufe) zu entscheiden ist. Dadurch entstehen zu breite oder unlogische Kombinationen.
+- **Fehlende Beispiele**: Ohne ein konkretes Beispiel wissen Modelle nicht, ob ein Leerzeichen nach dem Komma erlaubt ist oder welche ID‑Formate (z. B. `sek1`, `3`) erwartet werden.
+
+## Konkrete Änderungen
+1. **Klare Ausgabe‑Spezifikation**  
+   - Formuliere: „Gib **nur** die IDs zurück, **kommagetrennt**, **ohne** Leer‑/Zeichen oder zusätzlichen Text.“  
+   - Verbanne jede Form von Erklärungen, JSON‑Strukturen oder Zeilenumbrüchen.
+
+2. **Eindeutige ID‑Referenz**  
+   - Ergänze: „Verwende ausschließlich die IDs aus `{{WIDGET_BILDUNGSSTUFE}}`. Wenn ein Name nicht eindeutig ist, gib die zugehörige numerische ID aus der Liste an.“
+
+3. **Priorisierungsregel für Mehrdeutigkeiten**  
+   - Definiere eine Hierarchie:  
+     a) **Sprachniveau** (einfach → komplex)  
+     b) **Vorausgesetztes Vorwissen** (Grundkenntnisse → fachspezifisch)  
+     c) **Lehrplanzuordnung** (Klassenstufen‑Kernlehrplan).  
+   - Bei mehreren passenden Stufen wähle die **kleinste zusammenhängende Gruppe** von maximal 3 aufeinanderfolgenden IDs.
+
+4. **Begrenzung auf sinnvolle Stufen**  
+   - Füge hinzu: „Vermeide Sprünge wie `Elementarbereich + Hochschule`. Wenn das Material sowohl Grund‑ als auch Sekundarstufe abdeckt, wähle die **unterste** passende Stufe und ggf. die direkt folgende, jedoch nicht weiter entfernte Stufen.“
+
+5. **Beispiel zur Veranschaulichung**  
+   - Gib ein kurzes Beispiel (z. B. „Beispiel: Für ein Grundschul‑Mathe‑Video → Ausgabe `3,4`“), damit das Modell das gewünschte Format erkennt.
+
+6. **Fallback‑Verhalten**  
+   - Wenn keine passende Stufe gefunden werden kann, gib die ID `0` zurück (Platzhalter für „nicht zuordenbar“), um immer ein gültiges Format zu gewährleisten.
+Vorgeschlagener Prompt
+Kopieren
+```
+Ordne das vorliegende Lernmaterial den passenden Bildungsstufen in Deutschland zu.
+
+Kriterien (in dieser Reihenfolge zu berücksichtigen):
+1. Sprachniveau des Materials (einfach → komplex)
+2. Vorausgesetztes Vorwissen (Grundkenntnisse → fachspezifisch)
+3. Lehrplanzuordnung (Klassenstufen‑Kernlehrplan)
+
+- Wähle maximal **drei** aufeinanderfolgende Stufen.  
+- Vermeide Sprünge (z. B. Elementarbereich + Hochschule).  
+- Wenn das Material mehrere zusammenhängende Stufen abdeckt, nimm die **unterste** passende Gruppe und ggf. die direkt folgende Stufe, jedoch nicht weiter entfernte Stufen.  
+- Nutze ausschließlich die IDs aus `{{WIDGET_BILDUNGSSTUFE}}`.  
+- **Ausgabe:** nur die IDs, **kommagetrennt**, **ohne** Leer‑ oder Zeilenzeichen, **ohne** zusätzlichen Text oder JSON‑Struktur.  
+- Falls keine passende Stufe ermittelt werden kann, gib `0` zurück.
+
+Beispiel: Ein Grundschul‑Mathe‑Video → Ausgabe `3,4`.
+
+Jetzt die Zuordnung vornehmen:
+```
+Zielgruppe (ccm:educationalintendedenduserrole)
+Prompt übernehmen
+## Schwachstellen
+- **Formatkonformität**: In vielen Durchläufen (z. B. 2, 8, 10, 14, 21, 25, 31, 41) liefert die KI Namen oder Freitext statt der geforderten **kommagetrennten IDs**.  
+- **Mehrfachzuordnung**: Modelle neigen dazu, zu viele Zielgruppen zu listen, obwohl das Material nur eindeutig eine Hauptzielgruppe adressiert (Durchläufe 1, 6, 9, 24, 29, 39).  
+- **Unklare Rollen‑IDs**: Ohne eine konkrete Zuordnungstabelle (Name → ID) geben einige Modelle falsche oder nicht existierende IDs aus (Durchläufe 3, 18, 30, 48).  
+- **Fehlende oder leere Ausgabe**: Einige Modelle geben gar nichts zurück oder wiederholen den Platzhalter (Durchläufe 23, 38, 45).  
+- **Inkonsistente Behandlung von „wenn keine eindeutige Zuordnung“**: Unterschiedliche Modelle entscheiden unterschiedlich, ob mehrere Rollen zulässig sind oder nur die wahrscheinlichste Hauptzielgruppe gewählt wird.  
+
+## Konkrete Änderungen
+1. **Klare Vorgabe der ID‑Tabelle**  
+   - Direkt im Prompt die vollständige Mapping‑Tabelle (Name → ID) einbetten oder explizit verlangen, dass nur IDs aus dieser Tabelle verwendet werden dürfen.  
+2. **Strikte Ausgabe‑Regel**  
+   - „Gib **nur** die IDs aus, **keine** Namen, keine Leerzeichen, nur Kommas zwischen den IDs.“  
+   - Bei Unsicherheit soll **keine** Ausgabe erfolgen (oder ein vordefiniertes Token wie `none`).  
+3. **Regel für Mehrfachzuordnung**  
+   - „Mehrfachzuordnungen nur, wenn das Material **explizit** mehrere Rollen adressiert (z. B. Lernende + Lehrende). Ansonsten **nur** die eindeutigste Hauptzielgruppe.“  
+4. **Fallback‑Logik**  
+   - Wenn keine Rolle eindeutig erkennbar ist, **wähle die wahrscheinlichste Hauptzielgruppe** anhand der Merkmale (direkte Lerneransprache → Lernende, didaktische Hinweise → Lehrende usw.).  
+5. **Beispiel‑Ausgabe**  
+   - Ein kurzes Beispiel am Ende des Prompts, das die erwartete Form illustriert (z. B. `1,3`).  
+6. **Fehler‑Abfang**  
+   - Hinweis, dass das Modell **keine** zusätzlichen Erklärungen, Klammern oder Zeilenumbrüche hinzufügen darf.
+Vorgeschlagener Prompt
+Kopieren
+```
+Du bist ein Experte für Bildungsmetadaten.  
+Deine Aufgabe: Bestimme aus dem bereitgestellten Material die **intended end‑user role(s)** und gib **ausschließlich** die zugehörigen IDs aus dem folgenden Mapping zurück.
+
+Mapping (Name → ID):
+Lernende           → 1
+Lehrende           → 2
+Eltern             → 3
+Autor/Ersteller    → 4
+Auszubildende      → 5
+Sonstige           → 6
+(weitere Rollen können hier ergänzt werden)
+
+Regeln:
+1. Analysiere den Volltext und entscheide, welche Rolle(n) das Material **tatsächlich** anspricht.
+2. Verwende **nur** IDs aus dem Mapping. Keine Namen, keine Texte, keine Leerzeichen.
+3. Mehrfachzuordnungen **nur**, wenn das Material **explizit** mehrere Rollen adressiert (z. B. direkte Lernansprache + didaktische Hinweise für Lehrende).  
+   Ansonsten wähle die eindeutigste Hauptzielgruppe.
+4. Wenn keine Rolle eindeutig erkennbar ist, wähle die wahrscheinlichste Hauptzielgruppe anhand folgender Merkmale:
+   - Direkte Lerneransprache, Aufgaben, Übungen → Lernende (ID 1)  
+   - Didaktische Hinweise, Lernziele, Lösungen → Lehrende (ID 2)  
+   - Erziehungs‑/häusliche Förderhinweise → Eltern (ID 3)  
+   - Anleitungen zur Materialerstellung/Lizenzierung → Autor/Ersteller (ID 4)
+5. Gib **nur** die kommagetrennten IDs aus, z. B. `1,2`.  
+   - Keine Zeilenumbrüche, keine Klammern, kein zusätzlicher Text.
+6. Wenn du **keine** passende Rolle finden kannst, gib `none` zurück.
+
+Beispiel:
+Material enthält Aufgaben für Schülerinnen und Schüler und einen Lösungsschlüssel für Lehrkräfte. → Ausgabe: `1,2`
+
+Jetzt analysiere das folgende Material und gib die IDs aus:
+{{MATERIAL_TEXT}}
+```
+
+Dieser Prompt enthält ein vollständiges Rollen‑Mapping, zwingt zu einer reinen ID‑Ausgabe, definiert klare Kriterien für Mehrfachzuordnungen und liefert ein Beispiel, das die erwartete Formatierung verdeutlicht. Damit werden die wiederkehrenden Schwächen aus den 50 Testdurchläufen behoben.
+Sprache (cclom:general_language)
+Prompt übernehmen
+## Schwachstellen
+- **Inhaltliche Korrektheit**: In einigen Durchläufen (z. B. Durchlauf 3, 21, 23, 43) wurde der Haupt‑Inhalt nicht korrekt erkannt und es wurden falsche Werte (z. B. „PDF“, „Web‑basiert“) ausgegeben.  
+- **Formatkonformität**: Modelle haben gelegentlich zusätzliche Zeilen, Leerzeichen oder erklärenden Text angehängt (Durchlauf 4, 9, 11, 14).  
+- **Mehrsprachigkeit / Mixed‑Content**: Bei Texten, die sowohl deutsch als auch englisch enthalten (Durchlauf 47, 48), wurde die falsche Sprache gewählt, weil die Anweisung zum Ignorieren von Boiler‑Plate‑Texten nicht eindeutig genug war.  
+- **Suchoptimierung / Bildungseignung**: Einige Bewertungen (z. B. Durchlauf 4, 9, 14) bevorzugen zusätzliche Metadaten, weil der reine Code wenig Kontext bietet. Der Prompt muss jedoch strikt nur den Code ausgeben, aber gleichzeitig die Robustheit erhöhen, damit die korrekte Sprache zuverlässig ermittelt wird.  
+- **Regionale Variante**: Die Unterscheidung zwischen de_DE, de_AT und de_CH war nicht immer eindeutig genug formuliert, sodass Modelle bei fehlenden Markern ggf. den falschen Code lieferten.  
+
+## Konkrete Änderungen
+1. **Präzisierung des zu analysierenden Textes**  
+   - Definiere klar, dass nur der zusammenhängende Fließtext (Absätze) des Haupt‑Inhalts berücksichtigt wird; alles, was als UI‑Element, Header, Footer, Cookie‑Banner, Dateiname, Metadaten‑Block o. Ä. erkennbar ist, muss ausgeschlossen werden.  
+2. **Mehrsprachige Dokumente**  
+   - Füge eine Anweisung hinzu, die Wort‑/Token‑Anzahl pro Sprache zu zählen und die Sprache mit dem größten Anteil zu wählen. Bei exakt gleichem Anteil soll die Sprache des Titels/der Kurzbeschreibung bevorzugt werden.  
+3. **Regionale Varianten eindeutig bestimmen**  
+   - Liste konkrete Marker für de_CH, de_AT, en_GB, en_US usw. (z. B. „ß“ → de_DE, „ss“ + Schweizer Ortsnamen → de_CH, „Velo“ → de_CH, „-our“/„-ise“ → en_GB).  
+4. **Fallback‑Regel**  
+   - Wenn kein erkennbarer Fließtext vorhanden ist, soll **de_DE** als Standard‑Fallback verwendet werden (wie bisher).  
+5. **Strikte Ausgabe‑Formatierung**  
+   - Verlange explizit: *„Gib ausschließlich den Sprach‑Code im Format xx_YY aus – ohne Zeilenumbruch, Leerzeichen oder sonstigen Text.“*  
+6. **Robuste Token‑Zähl‑Methode**  
+   - Formuliere die Anweisung, dass das Modell zunächst die Wörter in jeder Sprache identifiziert (z. B. über typische Stop‑Wörter) und dann die Summe bildet.  
+7. **Beispiel‑Erweiterung**  
+   - Ergänze ein kurzes Negativ‑Beispiel, das zeigt, was **nicht** ausgegeben werden darf (z. B. Dateiformat, Titel, etc.), um Fehlinterpretationen zu vermeiden.
+Vorgeschlagener Prompt
+Kopieren
+```
+Bestimme die Sprache und die regionale Variante des **Haupt‑Inhaltstextes** eines Dokuments.
+
+WICHTIG:
+- Analysiere nur den zusammenhängenden Fließtext (Absätze) des Haupt‑Inhalts. Ignoriere Titel, Dateinamen, Metadaten, Header, Footer, Navigations‑/UI‑Elemente, Cookie‑Banner, Copyright‑Hinweise und sonstige Boiler‑Plate‑Texte.
+- Wenn mehrere Sprachen vorkommen, zähle die Wörter (oder Tokens) jeder Sprache. Wähle die Sprache mit dem **größten Anteil**. Bei exakt gleichem Anteil hat die Sprache des Titels bzw. der Kurzbeschreibung Vorrang.
+- Bestimme die regionale Variante anhand eindeutiger sprachlicher Marker:
+  * Deutsch (de_DE): Standarddeutsch, Verwendung von „ß“, keine schweizer/österreichischen Besonderheiten.
+  * Deutsch (de_CH): Schweizer Schreibweise („ss“ statt „ß“), Vokabeln wie „Velo“, Ortsnamen/Begriffe aus der Schweiz.
+  * Deutsch (de_AT): Österreichische Besonderheiten (z. B. „Jänner“, „Bim“).
+  * Englisch (en_US): US‑typische Schreibweisen („color“, „organize“), keine britischen Endungen.
+  * Englisch (en_GB): Britische Schreibweisen („colour“, „organise“, Endungen „‑our“, „‑ise“).
+  * Französisch (fr_FR), Spanisch (es_ES), Italienisch (it_IT), Türkisch (tr_TR) usw. – keine speziellen Marker nötig, Standard‑Landessprache verwenden.
+- **Kein erkennbarer Fließtext** → verwende den Fallback‑Code **de_DE**.
+- **Ausgabe:** Gib **nur** den Sprach‑Code im Format `xx_YY` aus – **ohne** Zeilenumbruch, Leerzeichen oder zusätzlichen Text.
+
+Beispiel (korrekt):
+```
+de_DE
+```
+
+Beispiel (falsch – nicht ausgeben):
+```
+Dateityp: PDF
+```
+```
+Lernzeit (cclom:typicallearningtime)
+Prompt übernehmen
+## Schwachstellen
+- **Inhaltliche Korrektheit** (oft < 10): Viele Modelle geben unrealistisch hohe oder willkürliche Werte, weil der Prompt keine Ober‑ bzw. Untergrenzen definiert und keine klare Priorisierung der Schätzmethoden (Text‑ vs. Video‑ vs. Übungs‑Material) enthält.  
+- **Bildungseignung** (oft < 10): Die reine Angabe in Millisekunden ist für Lehrkräfte schwer interpretierbar; zudem fehlt ein Hinweis, dass Werte über einer typischen Unterrichtsstunde (≈ 45 min) nur in Ausnahmefällen zulässig sind.  
+- **Suchoptimierung** (oft < 10): Ohne Kontext‑Keywords oder ein standardisiertes Format (z. B. ISO 8601‑Dauer) ist die Zahl kaum indexier‑ oder filterfähig.  
+- **Einheit / Präsentation**: Millisekunden sind technisch korrekt, aber im Bildungs‑Metadaten‑Umfeld unüblich. Der Prompt lässt keine Möglichkeit zu einer sekund‑ oder minuten‑basierten Angabe zu, was die Praktikabilität einschränkt.  
+- **Fallback‑Logik**: Der aktuelle Fallback („2700000 ms, wenn keine Schätzung möglich“) wird nicht eindeutig als *letzte* Option gekennzeichnet; Modelle nutzen ihn zu früh oder ignorieren ihn.  
+- **Rundungs‑ und Grenzwert‑Regeln**: Es gibt keine Vorgaben, wie gerundet werden soll (z. B. auf 5‑Minuten‑Schritte) und welche Maximalwerte akzeptabel sind, sodass Modelle extrem große Zahlen produzieren.
+
+## Konkrete Änderungen
+1. **Klare Prioritätsreihenfolge**  
+   - Zuerst Wort‑/Zeichenzahl des Textes auswerten → Lesegeschwindigkeit 150 Wort/min (Fachtext 100 Wort/min).  
+   - Dann Videolänge (falls angegeben) → + 30 % Puffer.  
+   - Dann Übungs‑Aufgaben → 2 Min pro Aufgabe.  
+   - Nur wenn **keine** dieser Informationen vorhanden sind, den definierten Fallback‑Wert (45 min = 2 700 000 ms) verwenden.
+
+2. **Ober‑ und Untergrenzen**  
+   - Minimalwert: 60 000 ms (1 min).  
+   - Maximalwert: 5 400 000 ms (90 min).  
+   - Werte außerhalb dieses Bereichs werden auf den nächsten Grenzwert gekappt.
+
+3. **Rundung**  
+   - Ergebnis auf das nächste Vielfache von 300 000 ms (5 min) runden.
+
+4. **Optionales sekund‑basiertes Ausgabe‑Format**  
+   - Zusätzlich zur reinen Millisekunden‑Zahl das Ergebnis in Sekunden in Klammern ausgeben, um die Lesbarkeit zu erhöhen, **ohne** die geforderte reine Zahl zu verletzen (z. B. `600000 (600)`).
+
+5. **Suchoptimierung**  
+   - Am Ende des Prompts einen kurzen Hinweis einbauen, dass das Ergebnis als reine Zahl in Millisekunden gespeichert wird, aber **immer** das Schlüsselwort `Lernzeit` im Metadaten‑Eintrag enthalten sein muss (dies beeinflusst die Indexierung, nicht die Ausgabe).
+
+6. **Formulierung**  
+   - Den Prompt präziser und kompakter formulieren, um Missverständnisse zu vermeiden.
+Vorgeschlagener Prompt
+Kopieren
+```
+Schätze die typische Bearbeitungszeit einer Unterrichtseinheit in **Millisekunden** (ganze Zahl).  
+Verwende dabei die folgende Prioritätsreihenfolge und halte dich exakt an die Vorgaben:
+
+1. **Textinhalt**  
+   - Liegt die Wortzahl im Input vor?  
+   - Berechne: Wortzahl ÷ 150 (Allgemeintext) bzw. ÷ 100 (Fachtext) = Minuten.  
+   - Ergebnis → Minuten × 60 000 = Millisekunden.
+
+2. **Video‑/Audio‑Material**  
+   - Ist eine Medienlänge (Minuten) angegeben?  
+   - Berechne: Länge × 1,3 (30 % Puffer) = Minuten.  
+   - Ergebnis → Minuten × 60 000 = Millisekunden.
+
+3. **Übungen / Aufgaben**  
+   - Anzahl der Aufgaben angegeben?  
+   - Berechne: Anzahl × 2 Min = Minuten.  
+   - Ergebnis → Minuten × 60 000 = Millisekunden.
+
+4. **Fallback**  
+   - Wenn weder Text‑ noch Medien‑ noch Aufgabendaten vorhanden sind, setze **2700000 ms** (45 Min) als Standardwert.
+
+**Grenzwerte & Rundung**  
+- Ergebnis < 60 000 ms → setze auf 60 000 ms.  
+- Ergebnis > 5 400 000 ms → setze auf 5 400 000 ms.  
+- Runde das Ergebnis auf das nächste Vielfache von **300 000 ms** (5 Min).
+
+**Ausgabe**  
+- Gib **nur** die gerundete Millisekunden‑Zahl aus, z. B. `600000`.  
+- (Optional, zur besseren Lesbarkeit, kannst du in Klammern die Sekunden angeben, z. B. `600000 (600)`).  
+
+**Hinweis für Metadaten**  
+- Der zurückgegebene Wert wird im Feld `cclom:typicallearningtime` gespeichert; stelle sicher, dass das Schlüsselwort **Lernzeit** im Metadatensatz enthalten ist, damit Such‑ und Filterfunktionen funktionieren.
+
+Beispielwerte zur Orientierung:  
+5 Min = 300 000 ms, 10 Min = 600 000 ms, 15 Min = 900 000 ms, 45 Min = 2 700 000 ms.
+```
+Textkomplexität (ccm:oeh_text_difficulty)
+Prompt übernehmen
+## Schwachstellen
+- **Inhaltliche Korrektheit** (manche Durchläufe ≤ 7):  
+  - Die KI verwechselte häufig das *Thema* mit der *sprachlichen* Komplexität (z. B. „Sekundarstufe I“ statt einer Text‑Komplexitätsstufe).  
+  - Bei fehlendem oder sehr geringem Textinhalt wurde nicht immer die niedrigste Stufe gewählt.  
+  - Fachbegriffe wurden nicht konsequent niedriger bewertet, wenn sie erklärt wurden.
+
+- **Bildungseignung** (manche Durchläufe ≤ 8):  
+  - Fehlende oder unklare Definition der zulässigen Stufen führte zu Ausgaben, die im Bildungskontext wenig Aussagekraft hatten (z. B. „Einfach“, „Niedrig“ vs. die im Widget definierten Bezeichnungen).  
+  - Keine explizite Anweisung, dass die Ausgabe **nur** den Stufennamen aus dem Widget‑Platzhalter enthalten darf.
+
+- **Suchoptimierung** (einige Durchläufe ≤ 6):  
+  - Verwendung von Begriffen, die nicht im kontrollierten Vokabular des Metadatenschemas stehen (z. B. „Einfach“, „Komplex“, „Grundschule“).  
+  - Inkonsistente Schreibweise bzw. fehlende Übereinstimmung mit den im System hinterlegten Schlagworten.
+
+- **Formatkonformität** (vereinzelt < 10):  
+  - Teilweise wurden zusätzliche Erklärungen oder ein falscher Stufenname ausgegeben, weil der Prompt nicht streng genug forderte, **exakt** den Namen aus `{{WIDGET_TEXTKOMPLEXITAET}}` zu verwenden.
+
+## Konkrete Änderungen
+1. **Klare Vorgabe der zulässigen Werte**  
+   - Liste der erlaubten Stufen (aus dem Widget) explizit im Prompt aufführen und die KI verpflichten, **einen dieser Werte exakt** zu wählen.
+
+2. **Strikte Trennung von Themen‑ und Sprachkomplexität**  
+   - Formulierung, dass das Thema *ignoriert* wird und ausschließlich Satzbau, Wortschatz, Abstraktionsgrad, vorausgesetztes Vorwissen und Informationsdichte bewertet werden.
+
+3. **Regeln für Sonderfälle**  
+   - Wenn kein (oder kaum) Fließtext vorhanden ist → niedrigste Stufe.  
+   - Bei gemischter Komplexität: Hauptteil (≥ 70 % des Textes) entscheidet.  
+   - Fachbegriffe, die im Text erklärt werden, führen zu einer Stufe **eine Stufe niedriger** als ohne Erklärung.
+
+4. **Verbot von Zusatztext**  
+   - Hinweis, dass **nur** der Stufenname ausgegeben werden darf – keine Klammern, keine Erklärungen, kein Whitespace vor/nach dem Wort.
+
+5. **Beispiel‑Ausgabe** (zur Veranschaulichung, aber nicht auszugeben)  
+   - Kurz im Prompt erwähnen, dass das Beispiel nur zur Orientierung dient und nicht mitgeliefert werden soll.
+
+6. **Standardisierte Schreibweise**  
+   - Groß‑/Kleinschreibung exakt wie im Widget (z. B. „Niedrig“, „Mittel“, „Hoch“, „Sehr hoch“).
+
+7. **Hinweis zur Robustheit**  
+   - Wenn mehrere mögliche Stufen gleich plausibel sind, die **konservativere** (niedrigere) wählen.
+Vorgeschlagener Prompt
+Kopieren
+```
+Bewerte die **sprachliche** Komplexität des bereitgestellten TEXTES. Das Thema des Textes ist irrelevant – es geht ausschließlich um folgende linguistische Merkmale:
+- Satzbau (einfach, verschachtelt, komplex)
+- Wortschatz (Alltagsvokabular, Fachterminologie, seltene Wörter)
+- Abstraktionsgrad (konkret vs. abstrakt)
+- Vorausgesetztes Vorwissen (gering, mittel, hoch)
+- Informationsdichte (wenig, moderat, hoch)
+
+**Regeln:**
+1. **Keine** Berücksichtigung des Themas oder der Zielgruppe.
+2. Liegt kein oder nur sehr wenig Fließtext (z. B. nur Bild‑/Video‑Titel, Navigationslinks, Cookie‑Banner) vor, wähle die **niedrigste** Stufe.
+3. Bei gemischter Komplexität (verschiedene Abschnitte) entscheidet der **Hauptteil** (≥ 70 % des Textes) über die Einstufung.
+4. Fachbegriffe, die im Text **erklärt** werden, führen zu einer Stufe **eine Stufe niedriger**, als wenn sie ungeklärt blieben.
+5. Wenn mehrere Stufen gleich plausibel sind, wähle die **konservativere** (niedrigere) Stufe.
+
+**Zulässige Stufen (exakt so zu schreiben, wie sie im Metadaten‑Widget definiert sind):**
+{{WIDGET_TEXTKOMPLEXITAET}}
+
+**Ausgabe:**  
+Nur den Namen einer der zulässigen Stufen ohne weitere Wörter, Leerzeichen oder Zeilenumbrüche zurückgeben.
+
+Beispiel (nicht ausgeben!):  
+„Mittel“
+```
+
+Dieser Prompt zwingt die KI, ausschließlich die vorgegebenen Stufen zu verwenden, berücksichtigt alle relevanten linguistischen Kriterien, behandelt Randfälle eindeutig und verhindert jede zusätzliche Ausgabe, wodurch die Punkte für inhaltliche Korrektheit, Bildungseignung, Suchoptimierung und Formatkonformität nachhaltig steigen.
